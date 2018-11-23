@@ -1,0 +1,15 @@
+<form  action="/addtest" method="POST">
+   <input type="submit" value="addtime">
+</form>
+<form action="/addtest" method="POST">
+    <!-- formからdeleteが出来なかったのでできるようにするやつ -->
+    <input type="hidden" value="DELETE" name="_method">
+    <input type="submit" value="dequeue" name="DEQUEUE">
+    <input type="submit" value="pop" name="POP">
+</form>
+<!-- <%= @resmessage %> -->
+<ul>
+    <% @arrarr.each do |c| %>
+        <li><%= c %></li>
+    <% end %>
+</ul>
