@@ -1,0 +1,16 @@
+<!-- 個別のTODO画面 -->
+<h2><%= @memotitle %></h2>
+<div><%= @memocontent %></div>
+<!-- 戻る, 編集, 削除 -->
+<a href="/todo">return</a>
+<!-- 
+<form method="GET" action="/todo/edit">
+    <input type="submit" name="<%= @memoid %>" value="edit">
+</form>
+-->
+<a href="/todo/items/edit/<%= @memoid %>">edit</a>
+<form method="POST" action="/todo">
+    <input type="hidden" value="DELETE" name="_method">
+    <input type="hidden" value="<%= @memoid %>" name="delete">
+    <input type="submit" value="delete">
+</form>
