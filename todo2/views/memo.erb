@@ -1,0 +1,10 @@
+<!-- 個別のTODO画面 -->
+<h2><%= @memotitle %></h2>
+<div><%= @memocontent %></div>
+<!-- 戻る, 編集, 削除 -->
+<!-- 戻るだけ -->
+<a href="/todo">return</a>
+<!-- 編集画面へ遷移 -->
+<a href="/todo/items/edit/<%= @memoid %>">edit</a>
+<!-- 削除 -->
+<a href="/todo?_method=DELETE&id=<%= @memoid %>">delete</a>
