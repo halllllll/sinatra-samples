@@ -101,7 +101,7 @@ helpers do
         [var.to_s.match(/[\w\d].+/), 
         v.instance_variable_get(var)]}.to_h
     }
-    open(filename, 'w+') do |file|
+    open(filename, 'w') do |file|
       JSON.dump(ret, file)
     end
   end
