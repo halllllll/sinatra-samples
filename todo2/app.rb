@@ -82,7 +82,7 @@ end
 
 delete '/todo' do
   todos.delete(params[:id])
-  updatelist(todos, filename)
+  # updatelist(todos, filename)
   redirect '/todo'
 end
 
