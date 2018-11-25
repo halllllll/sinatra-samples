@@ -44,11 +44,13 @@ get '/todo' do
   #   end
   # end
   # 一覧と追加,詳細
-  # if File.exists?("todo.json") do |file|
-  #   todos = JSON.load(file)
-  # else
-  #   puts "は????"
-  # end
+  if File.exists?("todo.json")
+    todos = JSON.load("todo.json")
+  else
+    File.open("todo.json", 'w+') do |file|
+      file.puts('{}')
+    end
+  end
   erb :top
 end
 
