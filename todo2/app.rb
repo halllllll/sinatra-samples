@@ -32,20 +32,11 @@ end
 
 # エントリポイント
 get '/todo' do
-  # # jsonから読み出す
-  # if File.exists?(filename)
-  #   File.open(filename) do |file|
-  #     # @reqdata = JSON.load(file)
-  #     todos = JSON.load(file)
-  #   end
-  # else
-  #   File.open(filename, 'w+') do |file|
-  #     file.puts("{}")
-  #   end
-  # end
-  # 一覧と追加,詳細
   if File.exists?("todo.json")
-    todos = JSON.load("todo.json")
+    File.open("todo.json") do  |file|
+      # とりあえず読み込む処理は後回しにしておく
+      # todos = JSON.load("todo.json")
+    end
   else
     File.open("todo.json", 'w+') do |file|
       file.puts('{}')
@@ -63,6 +54,8 @@ post '/todo' do
   todo.title = params[:todotitle]
   todos[todo.id] = todo
 
+  # ここに保存する処理
+  updatelist(todos, "todo.json")
   # erb :top
   status 201
   redirect '/todo'
@@ -104,9 +97,11 @@ helpers do
   def updatelist(dict, filename)
     ret = Hash.new{|h,k| h[k] = {}}
     dict.map{|k, v|
-      ret[k] = v.instance_variables.map{|var| [var.to_s.match(/[\w\d].+/), v.instance_variable_get(var)]}.to_h
-    }.to_json
-    open(filename, 'w') do |file|
+      ret[k] = v.instance_variables.map{|var|
+        [var.to_s.match(/[\w\d].+/), 
+        v.instance_variable_get(var)]}.to_h
+    }
+    open(filename, 'w+') do |file|
       JSON.dump(ret, file)
     end
   end
