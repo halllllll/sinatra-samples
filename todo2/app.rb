@@ -33,7 +33,7 @@ end
 # エントリポイント
 get '/todo' do
   if File.exists?("todo.json")
-    File.open("todo.json") do  |file|
+    File.open("todo.json", 'r+') do  |file|
       # 読み込みをやっていく
       # todos = JSON.load("todo.json")
     end
