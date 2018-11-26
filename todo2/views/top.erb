@@ -1,7 +1,7 @@
 <!-- 一覧、追加と詳細ができる -->
 <ul>
     <% @todos.each do |k, todo| %>
-        <li><a href="/todo/items/<%= k %>"><%= todo.title + " : " + todo.content %></a></li>
+        <li><a href="/todo/items/<%= k %>"><%= todo["title"] + " : " + todo["content"] %></a></li>
     <% end %>
 </ul>
 <a href="/todo/new">追加</a>

@@ -28,6 +28,11 @@ class Todo
     @date = Time.new.iso8601(6)
     @id = Digest::MD5.hexdigest(@date.to_s)
   end
+  def profile_to_hash
+    self.instance_variables.map{|var|
+      [var, self.instance_variable_get(var)]
+    }.to_h
+  end
 end
 
 # エントリポイント
@@ -35,7 +40,7 @@ get '/todo' do
   if File.exists?("todo.json")
     File.open("todo.json", 'r+') do  |file|
       # 読み込みをやっていく
-      # todos = JSON.load("todo.json")
+      todos = JSON.load(file)
     end
   else
     File.open("todo.json", 'w+') do |file|
@@ -48,6 +53,7 @@ end
 get '/todo/new' do
   erb :new
 end
+
 post '/todo' do
   todo = Todo.new()
   todo.content = params[:todocontent]
@@ -97,9 +103,7 @@ helpers do
   def updatelist(dict, filename)
     ret = Hash.new{|h,k| h[k] = {}}
     dict.map{|k, v|
-      ret[k] = v.instance_variables.map{|var|
-        [var.to_s.match(/[\w\d].+/), 
-        v.instance_variable_get(var)]}.to_h
+      ret[k] = v.profile_to_hash
     }
     open(filename, 'w') do |file|
       JSON.dump(ret, file)
