@@ -77,12 +77,13 @@ get /\/todo\/items\/([\w\d]+)/ do |i|
 end
 
 delete '/todo' do
-  todos.delete(params[:id])
+  todos.delete(params[:delete])
   updatelist(todos, filename)
+  @todos = todos
   status 204
-  # redirect '/todo'
   response.headers['Location'] = "/todo"
-  erb :top
+  redirect '/todo'
+  # erb :top
 end
 
 get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
