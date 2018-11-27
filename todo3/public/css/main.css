@@ -6,3 +6,27 @@ html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockqu
     box-sizing: border-box;
 }
 
+/* こうするとヘッダにwidth:100%したら横幅いっぱいになるらしい */
+body{
+    margin: 0;
+}
+
+/* 内容 */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: lightgoldenrodyellow;
+}
+
+/* ヘッダ */
+header.header {
+    width:100%;
+    text-align: center;
+}
+/* タイトル要素 */
+.header__title{
+    font-size: 24px;
+    background-color: #fff2;
+    align-items: cetner;
+    padding: 30px;
+}
