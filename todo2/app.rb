@@ -3,16 +3,6 @@ require 'sinatra/reloader'
 require 'digest/md5'
 require 'time'
 
-class Rack::MethodOverride
-  ALLOWED_METHODS=%w[GET HEAD PUT POST DELETE OPTIONS PATCH LINK UNLINK]
-  METHOD_OVERRIDE_PARAM_KEY = "_method".freeze
-  def method_override(env)
-    req = Rack::Request.new(env)
-    method = req.params[METHOD_OVERRIDE_PARAM_KEY] || env[HTTP_METHOD_OVERRIDE_HEADER]
-    method.to_s.upcase
-  end
-end
-
 enable :method_override
 
 todos = Hash.new()
@@ -69,9 +59,9 @@ end
 
 # 編集済データ更新
 patch '/todo' do
-  # formでやるのはなぜか失敗するので
   todos[params[:id]]["title"] = params[:todotitle]
   todos[params[:id]]["content"] = params[:todocontent]
+  # 時間を編集した時点に更新
   todos[params[:id]]["date"] = Time.new.iso8601(6)
   redirect '/todo'
 end
@@ -86,6 +76,7 @@ end
 delete '/todo' do
   todos.delete(params[:id])
   updatelist(todos, filename)
+  status 204
   redirect '/todo'
 end
 
