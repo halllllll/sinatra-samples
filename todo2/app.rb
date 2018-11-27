@@ -30,7 +30,7 @@ class Todo
   end
   def profile_to_hash
     self.instance_variables.map{|var|
-      [var, self.instance_variable_get(var)]
+      [var.match(/[\w\d]+/).to_s, self.instance_variable_get(var)]
     }.to_h
   end
 end
@@ -58,11 +58,10 @@ post '/todo' do
   todo = Todo.new()
   todo.content = params[:todocontent]
   todo.title = params[:todotitle]
-  todos[todo.id] = todo
-
+  todos[todo.id] = todo.profile_to_hash
+  @todos = todos
   # ここに保存する処理
   updatelist(todos, "todo.json")
-  # erb :top
   status 201
   redirect '/todo'
 end
@@ -70,19 +69,16 @@ end
 # 編集済データ更新
 patch '/todo' do
   # formでやるのはなぜか失敗するので
-  todos[params[:id]].title = params[:todotitle]
-  todos[params[:id]].content = params[:todocontent]
-  todos[params[:id]].date = Time.new.iso8601(6)
-  # @reqdata = params
-  # erb :top
+  todos[params[:id]]["title"] = params[:todotitle]
+  todos[params[:id]]["content"] = params[:todocontent]
+  todos[params[:id]]["date"] = Time.new.iso8601(6)
   redirect '/todo'
 end
 
 get /\/todo\/items\/([\w\d]+)/ do |i|
   @memoid = i
-  @memotitle = todos[i].title
-  @memocontent = todos[i].content
-  # @reqdata = "todos[#{i}].title= "+todos[i].title
+  @memotitle = todos[i]["title"]
+  @memocontent = todos[i]["content"]
   erb :memo
 end
 
@@ -94,19 +90,15 @@ end
 
 get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
   @memoid = i
-  @memotitle = todos[i].title
-  @memocontent = todos[i].content
+  @memotitle = todos[i]["title"]
+  @memocontent = todos[i]["content"]
   erb :edit
 end
 
 helpers do
   def updatelist(dict, filename)
-    ret = Hash.new{|h,k| h[k] = {}}
-    dict.map{|k, v|
-      ret[k] = v.profile_to_hash
-    }
     open(filename, 'w') do |file|
-      JSON.dump(ret, file)
+      JSON.dump(dict, file)
     end
   end
 end 
