@@ -9,6 +9,7 @@ html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockqu
 /* こうするとヘッダにwidth:100%したら横幅いっぱいになるらしい */
 body{
     margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
 }
 
 /* ヘッダ */
@@ -38,29 +39,57 @@ header.header {
 }
 
 /* todolist 一覧 */
+.top{
+}
+
+/* ボタンのデコレート（共通） */
+.button__decorate {
+    width: 60px;    /* 決め打ち */
+    text-align: center;
+    padding: 0.5em;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    text-decoration: none;
+}
+
+/* 追加ボタン */
+.button--add {
+    display: block;     /* 右/左寄せ/中央揃えのため */
+    margin: 0 auto 0 auto; /* 中央揃え */
+    background-color: rgb(206, 205, 205);
+}
+
 /* まずはtodolistのガワ */
 .todo__list {
     height: 100%;
-    margin-bottom: 10px;
+    margin: 10px;
     border-width: 1px;
     border-style: ridge;
     border-color: aqua;
     padding: 3px 0px 3px 0px;
-    height: 20em;
+    height: 10em;   /* あとで変える */
+    display: block;
+    position: relative;
 }
 /* todolist */
 .todo__items {
+    overflow-y: scroll;
+    position: relative;
     padding: 10px;
+    height: 100%;
 }
 /* todolistの各アイテム */
+/* 文頭に黒丸 */
+
+.todo__item:before{
+    font-family: "Font Awesome 5 Free";
+    content: "\f111";
+    position: absolute;
+    left: 1.0em;    /* 決め打ち */
+}
 .todo__item {
     line-height: 1.5;
+    padding-left: 2.0em;    /* 決め打ち */
 }
 
-/* 追加ボタン */
-.button__default {
-    display: inline-block;
-    padding: 0.25em;
-    margin: auto;
-    background-color: #93Ae22;
-}

@@ -1,5 +1,8 @@
 <!-- 一覧、追加と詳細ができる -->
 <div class="top">
+    <div>
+        <a href="/todo/new" class="button--add button__decorate">追加</a>
+    </div>
     <div class="todo__list">
         <ul class="todo__items">
             <% @todos.each do |k, todo| %>
@@ -8,7 +11,6 @@
         </ul>
     </div>
     <div class="">
-        <a href="/todo/new" class="button__default">追加</a>
         <%= @reqdata %> <!-- デバッグ表示用 -->
     </div>
 </div>
