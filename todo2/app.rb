@@ -16,7 +16,7 @@ end
 enable :method_override
 
 todos = Hash.new()
-# filename = "todo.json"
+filename = "todo.json"
 
 before do
   @todos = todos
@@ -30,6 +30,7 @@ class Todo
   end
   def profile_to_hash
     self.instance_variables.map{|var|
+      # そのままだと頭に@つきになってしまうので
       [var.match(/[\w\d]+/).to_s, self.instance_variable_get(var)]
     }.to_h
   end
@@ -37,13 +38,13 @@ end
 
 # エントリポイント
 get '/todo' do
-  if File.exists?("todo.json")
-    File.open("todo.json", 'r+') do  |file|
-      # 読み込みをやっていく
+  if File.exists?(filename)
+    File.open(filename, 'r+') do  |file|
+      # 読み込み
       todos = JSON.load(file)
     end
   else
-    File.open("todo.json", 'w+') do |file|
+    File.open(filename, 'w+') do |file|
       file.puts('{}')
     end
   end
@@ -61,7 +62,7 @@ post '/todo' do
   todos[todo.id] = todo.profile_to_hash
   @todos = todos
   # ここに保存する処理
-  updatelist(todos, "todo.json")
+  updatelist(todos, filename)
   status 201
   redirect '/todo'
 end
@@ -84,7 +85,7 @@ end
 
 delete '/todo' do
   todos.delete(params[:id])
-  updatelist(todos, "todo.json")
+  updatelist(todos, filename)
   redirect '/todo'
 end
 
@@ -96,9 +97,9 @@ get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
 end
 
 helpers do
-  def updatelist(dict, filename)
-    open(filename, 'w') do |file|
-      JSON.dump(dict, file)
+  def updatelist(dict, file)
+    open(file, 'w') do |f|
+      JSON.dump(dict, f)
     end
   end
 end 
