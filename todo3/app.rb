@@ -31,7 +31,7 @@ get '/todo' do
   if File.exists?(filename)
     File.open(filename, 'r+') do  |file|
       # 読み込み
-      todos = JSON.load(file)
+      todos = formatcontent(JSON.load(file))
     end
   else
     File.open(filename, 'w+') do |file|
@@ -89,9 +89,15 @@ get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
 end
 
 helpers do
+  # jsonを現在のtodoに合わせてアップデート
   def updatelist(dict, file)
     open(file, 'w') do |f|
       JSON.dump(dict, f)
     end
+  end
+
+  # タイトルがなかったら内容の頭から30文字くらいとってきて「...」つける
+  def formatcontent(dict)
+    dict
   end
 end 
