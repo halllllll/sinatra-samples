@@ -54,7 +54,9 @@ post '/todo' do
   # ここに保存する処理
   updatelist(todos, filename)
   status 201
-  redirect '/todo'
+  # redirect '/todo'
+  response.headers['Location'] = "/todo"
+  erb :top
 end
 
 # 編集済データ更新
@@ -78,7 +80,9 @@ delete '/todo' do
   todos.delete(params[:id])
   updatelist(todos, filename)
   status 204
-  redirect '/todo'
+  # redirect '/todo'
+  response.headers['Location'] = "/todo"
+  erb :top
 end
 
 get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
