@@ -31,9 +31,36 @@ header.header {
     border-style: dashed;
     border-color: #020202;
     max-width: 800px;
-    padding: 35px;
+    padding: 20px;
     margin: auto;   /* ページの中でのセンター */
                     /* 自然と(max-width内で)伸長する */
     /*background-color: lightgoldenrodyellow;*/
 }
 
+/* todolist 一覧 */
+/* まずはtodolistのガワ */
+.todo__list {
+    height: 100%;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-style: ridge;
+    border-color: aqua;
+    padding: 3px 0px 3px 0px;
+    height: 20em;
+}
+/* todolist */
+.todo__items {
+    padding: 10px;
+}
+/* todolistの各アイテム */
+.todo__item {
+    line-height: 1.5;
+}
+
+/* 追加ボタン */
+.button__default {
+    display: inline-block;
+    padding: 0.25em;
+    margin: auto;
+    background-color: #93Ae22;
+}
