@@ -11,13 +11,6 @@ body{
     margin: 0;
 }
 
-/* 内容 */
-.container {
-    max-width: 800px;
-    margin: auto;
-    background-color: lightgoldenrodyellow;
-}
-
 /* ヘッダ */
 header.header {
     width:100%;
@@ -29,4 +22,14 @@ header.header {
     background-color: #fff2;
     align-items: cetner;
     padding: 30px;
+}
+
+/* 内容 */
+.container {
+    border-radius: 40px;
+    max-width: 800px;
+    padding: 35px;
+    margin: auto;   /* ページの中でのセンター */
+                    /* 自然と(max-width内で)伸長する */
+    background-color: lightgoldenrodyellow;
 }
