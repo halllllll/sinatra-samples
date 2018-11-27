@@ -1,6 +1,6 @@
 .bundle
 vendor
 todo2/todo.json
-Gemfile.lock
+Gemefile.lock
 iranmon
 *.json

@@ -26,10 +26,14 @@ header.header {
 
 /* 内容 */
 .container {
-    border-radius: 40px;
+    border-width: 1px;
+    border-radius: 30px;
+    border-style: dashed;
+    border-color: #020202;
     max-width: 800px;
     padding: 35px;
     margin: auto;   /* ページの中でのセンター */
                     /* 自然と(max-width内で)伸長する */
-    background-color: lightgoldenrodyellow;
+    /*background-color: lightgoldenrodyellow;*/
 }
+
