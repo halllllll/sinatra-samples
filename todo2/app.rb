@@ -63,6 +63,7 @@ patch '/todo' do
   todos[params[:id]]["content"] = params[:todocontent]
   # 時間を編集した時点に更新
   todos[params[:id]]["date"] = Time.new.iso8601(6)
+  status 200
   redirect '/todo'
 end
 

@@ -7,8 +7,4 @@
     <input type="hidden" value="PATCH" name="_method">
     <input type="hidden" value="<%= @memoid %>" name="id">
     <input type="submit" value="update">
-    <!-- なんやこれ... patchメソッドでuriのクエリパラメータにすべてのデータを投げるのっていいのか...? -->
-    <!--
-    <a href="/todo?_method=PATCH&id=<%= @memoid %>&title=<%= @memotitle%>&content=<%= @memocontent%>">update</a>
-    -->
 </form>
