@@ -5,11 +5,6 @@
     <!-- 戻る, 編集, 削除 -->
     <div class="form__crud">
         <a href="/todo" class="button__decorate">return</a>
-    <!-- 
-    <form method="GET" action="/todo/edit">
-        <input type="submit" name="<%= @memoid %>" value="edit">
-    </form>
-    -->
         <a href="/todo/items/edit/<%= @memoid %>" class="button__decorate">edit</a>
         <form method="POST" action="/todo">
             <input type="hidden" value="DELETE" name="_method">

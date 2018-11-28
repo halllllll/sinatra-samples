@@ -31,7 +31,7 @@ get '/todo' do
   if File.exists?(filename)
     File.open(filename, 'r+') do  |file|
       # 読み込み
-      todos = formatcontent(JSON.load(file))
+      todos = JSON.load(file)
     end
   else
     File.open(filename, 'w+') do |file|
@@ -51,8 +51,8 @@ post '/todo' do
     redirect '/todo'
   end
   todo = Todo.new()
-  todo.content = params[:todocontent]
-  todo.title = params[:todotitle]
+  todo.content = params[:todocontent].lstrip
+  todo.title = params[:todotitle].lstrip
   todos[todo.id] = todo.profile_to_hash
   @todos = todos
   # ここに保存する処理
@@ -63,13 +63,14 @@ end
 
 # 編集済データ更新
 patch '/todo' do
-  todos[params[:id]]["title"] = params[:todotitle]
-  todos[params[:id]]["content"] = params[:todocontent]
+  todos[params[:id]]["title"] = params[:todotitle].lstrip
+  todos[params[:id]]["content"] = params[:todocontent].lstrip
   # 時間を編集した時点に更新
   todos[params[:id]]["date"] = Time.new.iso8601(6)
   @todos = todos
   updatelist(todos, filename)
-  status 201  # path後にどうやって画面遷移するのか不明なのでリダイレクトをかましているためこのステータスコード自体意味がない?
+  # もうちょい検証が必要..?
+  status 201
   redirect '/todo'
 end
 
@@ -90,8 +91,8 @@ end
 
 get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
   @memoid = i
-  @memotitle = todos[i]["title"]
-  @memocontent = todos[i]["content"]
+  @memotitle = todos[i]["title"].lstrip
+  @memocontent = todos[i]["content"].lstrip
   erb :edit
 end
 
@@ -101,10 +102,5 @@ helpers do
     open(file, 'w') do |f|
       JSON.dump(dict, f)
     end
-  end
-
-  # タイトルがなかったら内容の頭から30文字くらいとってきて「...」つける
-  def formatcontent(dict)
-    dict
   end
 end 
