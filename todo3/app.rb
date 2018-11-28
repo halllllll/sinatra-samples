@@ -46,6 +46,10 @@ get '/todo/new' do
 end
 
 post '/todo' do
+  if params[:todocontent].split.size==0 && params[:todotitle].split.size==0
+    status 204
+    redirect '/todo'
+  end
   todo = Todo.new()
   todo.content = params[:todocontent]
   todo.title = params[:todotitle]
