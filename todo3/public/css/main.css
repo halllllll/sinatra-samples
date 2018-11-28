@@ -93,3 +93,21 @@ header.header {
     padding-left: 2.0em;    /* 決め打ち */
 }
 
+/* 追加画面 */
+.form__item {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+    padding: 5px;
+}
+label[for^="todo"] {
+    width: 5em;
+    text-align: right;
+    margin-right: 1em;
+}
+input[type="text"], textarea{
+    width: 100%;
+}
+textarea{
+    height: 200px;
+}
