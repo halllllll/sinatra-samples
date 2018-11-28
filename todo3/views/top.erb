@@ -7,7 +7,8 @@
         <ul class="todo__items">
             <% @todos.each do |k, todo| %>
                 <% tex = todo["title"].split.size.zero? ? todo["content"][0, 20] : todo["title"]%>
-                <li class="todo__item"><a href="/todo/items/<%= k %>"><%= tex %></a></li>
+                <% lastupdate = " -- [" + DateTime.parse(todo["date"]).strftime("%b %d %H:%M") + "]" %>
+                <li class="todo__item"><a href="/todo/items/<%= k %>"><%= tex %></a><i class="todo__item__updatetime"><%= lastupdate %></i></li>
             <% end %>
         </ul>
     </div>
