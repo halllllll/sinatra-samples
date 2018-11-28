@@ -63,6 +63,7 @@ header.header {
 
 /* まずはtodolistのガワ */
 .todo__list {
+    width:100%;
     height: 100%;
     margin: 10px;
     border-width: 1px;
@@ -92,6 +93,11 @@ header.header {
 .todo__item {
     line-height: 1.5;
     padding-left: 2.0em;    /* 決め打ち */
+
+    /* これやると長すぎると省略するらしい */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* 追加画面 */
