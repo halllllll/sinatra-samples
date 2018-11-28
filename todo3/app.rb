@@ -22,7 +22,9 @@ class Todo
   def profile_to_hash
     self.instance_variables.map{|var|
       # そのままだと頭に@つきになってしまうので
-      [var.match(/[\w\d]+/).to_s, self.instance_variable_get(var)]
+      # [var.match(/[\w\d]+/).to_s, self.instance_variable_get(var)]
+      # と思ったけど@ごと文字列にします
+      [var, self.instance_variable_get(var)]
     }.to_h
   end
 end
@@ -39,6 +41,7 @@ get '/todo' do
       file.puts('{}')
     end
   end
+  @todos = todos
   erb :top
 end
 
@@ -52,24 +55,24 @@ post '/todo' do
     redirect '/todo'
   end
   todo = Todo.new()
-  todo.content = params[:todocontent].lstrip
-  todo.title = params[:todotitle].lstrip
+  todo.content = params[:todocontent]
+  todo.title = params[:todotitle]
   todos[todo.id] = todo.profile_to_hash
-  @todos = todos
   # ここに保存する処理
   updatelist(todos, filename)
+  @todos = todos
   status 201
   redirect '/todo'
 end
 
 # 編集済データ更新
 patch '/todo' do
-  todos[params[:id]]["title"] = params[:todotitle].lstrip
-  todos[params[:id]]["content"] = params[:todocontent].lstrip
+  todos[params[:id]]["@title"] = params[:todotitle].lstrip
+  todos[params[:id]]["@content"] = params[:todocontent].lstrip
   # 時間を編集した時点に更新
   todos[params[:id]]["date"] = Time.new.iso8601(6)
-  @todos = todos
   updatelist(todos, filename)
+  @todos = todos
   # もうちょい検証が必要..?
   status 201
   redirect '/todo'
@@ -77,8 +80,8 @@ end
 
 get /\/todo\/items\/([\w\d]+)/ do |i|
   @memoid = i
-  @memotitle = todos[i]["title"]
-  @memocontent = todos[i]["content"]
+  @memotitle = todos[i]["@title"]
+  @memocontent = todos[i]["@content"]
   erb :memo
 end
 
@@ -92,8 +95,8 @@ end
 
 get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
   @memoid = i
-  @memotitle = todos[i]["title"].lstrip
-  @memocontent = todos[i]["content"].lstrip
+  @memotitle = todos[i]["@title"].lstrip
+  @memocontent = todos[i]["@content"].lstrip
   erb :edit
 end
 
