@@ -5,7 +5,7 @@ require 'time'
 require 'date'
 
 todos = {}
-filename = "todo.json"
+FILENAME = "todo.json"
 @todos = todos
 
 
@@ -27,13 +27,13 @@ end
 
 # エントリポイント
 get '/' do
-  if File.exists?(filename)
-    File.open(filename, 'r+') do  |file|
+  if File.exists?(FILENAME)
+    File.open(FILENAME, 'r+') do  |file|
       # 読み込み
       todos = JSON.load(file)
     end
   else
-    File.open(filename, 'w+') do |file|
+    File.open(FILENAME, 'w+') do |file|
       file.puts('{}')
     end
   end
@@ -55,7 +55,7 @@ post '/' do
   todo.title = params[:todotitle].strip
   todos[todo.id] = todo.profile_to_hash
   # ここに保存する処理
-  updatelist(todos, filename)
+  updatelist(todos, FILENAME)
   @todos = todos
   status 201
   redirect '/'
@@ -67,7 +67,7 @@ patch '/todo/:id' do
   todos[params["id"]]["@content"] = params[:todocontent].strip
   # 時間を編集した時点に更新
   todos[params["id"]]["date"] = Time.new.iso8601(6)
-  updatelist(todos, filename)
+  updatelist(todos, FILENAME)
   @todos = todos
   # もうちょい検証が必要..?
   status 201
@@ -84,7 +84,7 @@ end
 # deleteメソッド
 delete '/todo/:id' do
   todos.delete(params["id"])
-  updatelist(todos, filename)
+  updatelist(todos, FILENAME)
   @todos = todos
   status 204
   redirect '/'
