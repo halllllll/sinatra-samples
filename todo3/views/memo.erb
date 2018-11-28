@@ -1,16 +1,20 @@
 <!-- 個別のTODO画面 -->
-<h2><%= @memotitle %></h2>
-<div><%= @memocontent %></div>
-<!-- 戻る, 編集, 削除 -->
-<a href="/todo">return</a>
-<!-- 
-<form method="GET" action="/todo/edit">
-    <input type="submit" name="<%= @memoid %>" value="edit">
-</form>
--->
-<a href="/todo/items/edit/<%= @memoid %>">edit</a>
-<form method="POST" action="/todo">
-    <input type="hidden" value="DELETE" name="_method">
-    <input type="hidden" value="<%= @memoid %>" name="delete">
-    <input type="submit" value="delete">
-</form>
+<div class="todo__desc">
+    <div class="todo__title"><%= @memotitle %></div>
+    <div class="todo__content"><%= @memocontent %></div>
+    <!-- 戻る, 編集, 削除 -->
+    <div class="form__crud">
+        <a href="/todo" class="button__decorate">return</a>
+    <!-- 
+    <form method="GET" action="/todo/edit">
+        <input type="submit" name="<%= @memoid %>" value="edit">
+    </form>
+    -->
+        <a href="/todo/items/edit/<%= @memoid %>" class="button__decorate">edit</a>
+        <form method="POST" action="/todo">
+            <input type="hidden" value="DELETE" name="_method">
+            <input type="hidden" value="<%= @memoid %>" name="delete">
+            <input class="button__decorate" type="submit" value="delete">
+        </form>
+    </div>
+</div>

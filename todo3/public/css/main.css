@@ -51,6 +51,7 @@ header.header {
     border-width: 1px;
     border-style: solid;
     text-decoration: none;
+    font-size: 100%;
 }
 
 /* 追加ボタン */
@@ -68,7 +69,7 @@ header.header {
     border-style: ridge;
     border-color: aqua;
     padding: 3px 0px 3px 0px;
-    height: 10em;   /* あとで変える */
+    height: 15em;   /* あとで変える */
     display: block;
     position: relative;
 }
@@ -122,4 +123,26 @@ textarea{
     display: block;     /* 右/左寄せ/中央揃えのため */
     margin: 10px auto 0 auto; /* 中央揃え */
     background-color: rgb(236, 236, 236);
+}
+
+/* 各todo画面 */
+.todo__desc{
+
+}
+.todo__title {
+    font-size: 30px;
+    text-align: center;
+}
+.todo__content{
+    margin: 10px;
+    text-align: left;
+    height: 15em;
+}
+.form__crud {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.form__crud a{
+    text-align: center;
 }
