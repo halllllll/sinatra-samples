@@ -61,7 +61,7 @@ post '/' do
   redirect '/'
 end
 
-# 編集済データ更新
+# 編集済データ更新(patchメソッド)
 patch '/todo/:id' do
   todos[params["id"]]["@title"] = params[:todotitle].strip
   todos[params["id"]]["@content"] = params[:todocontent].strip
@@ -81,6 +81,7 @@ get /\/todo\/([\w\d]+)/ do |i|
   erb :todo
 end
 
+# deleteメソッド
 delete '/todo/:id' do
   todos.delete(params["id"])
   updatelist(todos, filename)
