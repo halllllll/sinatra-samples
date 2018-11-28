@@ -51,8 +51,8 @@ post '/' do
     redirect '/'
   end
   todo = Todo.new()
-  todo.content = params[:todocontent]
-  todo.title = params[:todotitle]
+  todo.content = params[:todocontent].strip
+  todo.title = params[:todotitle].strip
   todos[todo.id] = todo.profile_to_hash
   # ここに保存する処理
   updatelist(todos, filename)
@@ -62,27 +62,27 @@ post '/' do
 end
 
 # 編集済データ更新
-patch '/' do
-  todos[params[:id]]["@title"] = params[:todotitle].lstrip
-  todos[params[:id]]["@content"] = params[:todocontent].lstrip
+patch '/todo/:id' do
+  todos[params["id"]]["@title"] = params[:todotitle].strip
+  todos[params["id"]]["@content"] = params[:todocontent].strip
   # 時間を編集した時点に更新
-  todos[params[:id]]["date"] = Time.new.iso8601(6)
+  todos[params["id"]]["date"] = Time.new.iso8601(6)
   updatelist(todos, filename)
   @todos = todos
   # もうちょい検証が必要..?
   status 201
-  redirect ''
+  redirect '/'
 end
 
 get /\/todo\/([\w\d]+)/ do |i|
-  @memoid = i
-  @memotitle = todos[i]["@title"]
-  @memocontent = todos[i]["@content"]
+  @todo_id = i
+  @todo_title = todos[i]["@title"].strip
+  @todo_content = todos[i]["@content"].strip
   erb :todo
 end
 
-delete '/' do
-  todos.delete(params[:delete])
+delete '/todo/:id' do
+  todos.delete(params["id"])
   updatelist(todos, filename)
   @todos = todos
   status 204
@@ -90,9 +90,9 @@ delete '/' do
 end
 
 get /\/todo\/edit\/([\w\d]+)/ do |i|
-  @memoid = i
-  @memotitle = todos[i]["@title"].lstrip
-  @memocontent = todos[i]["@content"].lstrip
+  @todo_id = i
+  @todo_title = todos[i]["@title"].strip
+  @todo_content = todos[i]["@content"].strip
   erb :edit
 end
 
