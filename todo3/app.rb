@@ -63,6 +63,9 @@ patch '/todo' do
   todos[params[:id]]["content"] = params[:todocontent]
   # 時間を編集した時点に更新
   todos[params[:id]]["date"] = Time.new.iso8601(6)
+  @todos = todos
+  updatelist(todos, filename)
+  status 201  # path後にどうやって画面遷移するのか不明なのでリダイレクトをかましているためこのステータスコード自体意味がない?
   redirect '/todo'
 end
 
