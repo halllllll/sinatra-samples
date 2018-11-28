@@ -1,10 +1,21 @@
- <form  action="/todo" method="POST">
-    Title: <input type="text" name="todotitle" value="<%= @memotitle %>">
-    <br>
-    <textarea rows="4" cols="50" name="todocontent">
-    <%= @memocontent %>
-    </textarea> 
-    <input type="hidden" value="PATCH" name="_method">
-    <input type="hidden" value="<%= @memoid %>" name="id">
-    <input type="submit" value="update">
-</form>
+<!-- ホントはnewと一緒に共通処理したほうがいい.. -->
+<div class="add__content">
+    <form  action="/todo" method="POST" class="add__form">
+        <fieldset>
+            <div class="form__item">
+                <label for="todo__title">Title</label>
+                <input type="text" name="todotitle" placeholder="" value="<%= @memotitle %>">
+            </div>
+            <div class="form__item">
+                <label for="todo__content">Content</label>
+                <textarea placeholder="" name="todocontent">
+                <%= @memocontent%>
+                </textarea>
+            </div>
+        </fieldset>
+        <input type="hidden" value="PATCH" name="_method">
+        <input type="hidden" value="<%= @memoid %>" name="id">
+        <input class="button__decorate button--update" type="submit" value="update">
+    </form>
+</div>
+
