@@ -4,14 +4,10 @@ require 'digest/md5'
 require 'time'
 require 'date'
 
-enable :method_override
-
-todos = Hash.new()
+todos = {}
 filename = "todo.json"
+@todos = todos
 
-before do
-  @todos = todos
-end
 
 class Todo
   attr_accessor :title, :content, :date, :priority, :id
@@ -30,7 +26,7 @@ class Todo
 end
 
 # エントリポイント
-get '/todo' do
+get '/' do
   if File.exists?(filename)
     File.open(filename, 'r+') do  |file|
       # 読み込み
@@ -49,10 +45,10 @@ get '/todo/new' do
   erb :new
 end
 
-post '/todo' do
+post '/' do
   if params[:todocontent].split.size==0 && params[:todotitle].split.size==0
     status 204
-    redirect '/todo'
+    redirect '/'
   end
   todo = Todo.new()
   todo.content = params[:todocontent]
@@ -62,11 +58,11 @@ post '/todo' do
   updatelist(todos, filename)
   @todos = todos
   status 201
-  redirect '/todo'
+  redirect '/'
 end
 
 # 編集済データ更新
-patch '/todo' do
+patch '/' do
   todos[params[:id]]["@title"] = params[:todotitle].lstrip
   todos[params[:id]]["@content"] = params[:todocontent].lstrip
   # 時間を編集した時点に更新
@@ -75,25 +71,25 @@ patch '/todo' do
   @todos = todos
   # もうちょい検証が必要..?
   status 201
-  redirect '/todo'
+  redirect ''
 end
 
-get /\/todo\/items\/([\w\d]+)/ do |i|
+get /\/todo\/([\w\d]+)/ do |i|
   @memoid = i
   @memotitle = todos[i]["@title"]
   @memocontent = todos[i]["@content"]
-  erb :memo
+  erb :todo
 end
 
-delete '/todo' do
+delete '/' do
   todos.delete(params[:delete])
   updatelist(todos, filename)
   @todos = todos
   status 204
-  redirect '/todo'
+  redirect '/'
 end
 
-get /\/todo\/items\/edit\/([\w\d]+)/ do |i|
+get /\/todo\/edit\/([\w\d]+)/ do |i|
   @memoid = i
   @memotitle = todos[i]["@title"].lstrip
   @memocontent = todos[i]["@content"].lstrip
