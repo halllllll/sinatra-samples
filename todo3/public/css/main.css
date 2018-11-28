@@ -100,14 +100,25 @@ header.header {
     align-items: baseline;
     padding: 5px;
 }
+/* このセレクタは「labelタグのfor属性がtodoで始まるもの」を表すらしい */
 label[for^="todo"] {
     width: 5em;
     text-align: right;
     margin-right: 1em;
 }
+/* ここからinputとテキストエリアの大きさなんだけど愚直... */
 input[type="text"], textarea{
     width: 100%;
+    font-family: inherit;
+    font-size: 100%;
+}
+input[type="text"]{
+    height: 2em;
 }
 textarea{
     height: 200px;
+}
+.add__button{
+    display: block;     /* 右/左寄せ/中央揃えのため */
+    margin: 10px auto 10px auto; /* 中央揃え */
 }
