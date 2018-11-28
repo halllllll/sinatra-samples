@@ -31,7 +31,7 @@ header.header {
     border-radius: 30px;
     border-style: dashed;
     border-color: #020202;
-    max-width: 800px;
+    max-width: 500px;
     padding: 20px;
     margin: auto;   /* ページの中でのセンター */
                     /* 自然と(max-width内で)伸長する */
@@ -44,7 +44,7 @@ header.header {
 
 /* ボタンのデコレート（共通） */
 .button__decorate {
-    width: 60px;    /* 決め打ち */
+    width: 80px;    /* 決め打ち */
     text-align: center;
     padding: 0.5em;
     border-radius: 4px;
