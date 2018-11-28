@@ -6,7 +6,8 @@
     <div class="todo__list">
         <ul class="todo__items">
             <% @todos.each do |k, todo| %>
-                <li class="todo__item"><a href="/todo/items/<%= k %>"><%= todo["title"] + " : " + todo["content"] %></a></li>
+                <% tex = todo["title"].split.size.zero? ? todo["content"][0, 20] + "..." : todo["title"]%>
+                <li class="todo__item"><a href="/todo/items/<%= k %>"><%= tex %></a></li>
             <% end %>
         </ul>
     </div>
