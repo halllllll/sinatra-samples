@@ -4,10 +4,7 @@ require 'digest/md5'
 require 'time'
 require 'date'
 
-todos = {}
-FILENAME = "todo.json"
-@todos = todos
-
+set :todos => {}, :FILENAME => "todo.json"
 
 class Todo
   attr_accessor :title, :content, :date, :priority, :id
@@ -30,14 +27,14 @@ get '/' do
   if File.exists?(FILENAME)
     File.open(FILENAME, 'r+') do  |file|
       # 読み込み
-      todos = JSON.load(file)
+      settings.todos = JSON.load(file)
     end
   else
     File.open(FILENAME, 'w+') do |file|
       file.puts('{}')
     end
   end
-  @todos = todos
+  @todos = settings.todos
   erb :top
 end
 
@@ -53,22 +50,22 @@ post '/' do
   todo = Todo.new()
   todo.content = params[:todocontent].strip
   todo.title = params[:todotitle].strip
-  todos[todo.id] = todo.profile_to_hash
+  settings.todos[todo.id] = todo.profile_to_hash
   # ここに保存する処理
-  updatelist(todos, FILENAME)
-  @todos = todos
+  updatelist(settings.todos, FILENAME)
+  @todos = settings.todos
   status 201
   redirect '/'
 end
 
 # 編集済データ更新(patchメソッド)
 patch '/todo/:id' do
-  todos[params["id"]]["@title"] = params[:todotitle].strip
-  todos[params["id"]]["@content"] = params[:todocontent].strip
+  settings.todos[params["id"]]["@title"] = params[:todotitle].strip
+  settings.todos[params["id"]]["@content"] = params[:todocontent].strip
   # 時間を編集した時点に更新
-  todos[params["id"]]["date"] = Time.new.iso8601(6)
-  updatelist(todos, FILENAME)
-  @todos = todos
+  settings.todos[params["id"]]["date"] = Time.new.iso8601(6)
+  updatelist(settings.todos, FILENAME)
+  @todos = settings.todos
   # もうちょい検証が必要..?
   status 201
   redirect '/'
@@ -76,24 +73,24 @@ end
 
 get /\/todo\/([\w\d]+)/ do |i|
   @todo_id = i
-  @todo_title = todos[i]["@title"].strip
-  @todo_content = todos[i]["@content"].strip
+  @todo_title = settings.todos[i]["@title"].strip
+  @todo_content = settings.todos[i]["@content"].strip
   erb :todo
 end
 
 # deleteメソッド
 delete '/todo/:id' do
-  todos.delete(params["id"])
-  updatelist(todos, FILENAME)
-  @todos = todos
+  settings.todos.delete(params["id"])
+  updatelist(settings.todos, FILENAME)
+  @todos = settings.todos
   status 204
   redirect '/'
 end
 
-get /\/todo\/edit\/([\w\d]+)/ do |i|
+get /\/todo\/([\w\d]+)\/edit/ do |i|
   @todo_id = i
-  @todo_title = todos[i]["@title"].strip
-  @todo_content = todos[i]["@content"].strip
+  @todo_title = settings.todos[i]["@title"].strip
+  @todo_content = settings.todos[i]["@content"].strip
   erb :edit
 end
 
