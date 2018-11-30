@@ -4,7 +4,8 @@ require 'digest/md5'
 require 'time'
 require 'date'
 
-set :todos => {}, :FILENAME => "todo.json"
+set :todos => {}
+FILENAME = "todo.json"
 
 class Todo
   attr_accessor :title, :content, :date, :priority, :id
