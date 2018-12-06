@@ -39,7 +39,7 @@ get '/' do
   erb :top
 end
 
-get '/todo/new' do
+get '/todos/new' do
   erb :new
 end
 
@@ -60,7 +60,7 @@ post '/' do
 end
 
 # 編集済データ更新(patchメソッド)
-patch '/todo/:id' do
+patch '/todos/:id' do
   settings.todos[params["id"]]["@title"] = params[:todotitle].strip
   settings.todos[params["id"]]["@content"] = params[:todocontent].strip
   # 時間を編集した時点に更新
@@ -72,7 +72,7 @@ patch '/todo/:id' do
   redirect '/'
 end
 
-get /\/todo\/([\w\d]+)/ do |i|
+get /\/todos\/([\w\d]+)/ do |i|
   @todo_id = i
   @todo_title = settings.todos[i]["@title"].strip
   @todo_content = settings.todos[i]["@content"].strip
@@ -80,7 +80,7 @@ get /\/todo\/([\w\d]+)/ do |i|
 end
 
 # deleteメソッド
-delete '/todo/:id' do
+delete '/todos/:id' do
   settings.todos.delete(params["id"])
   updatelist(settings.todos, FILENAME)
   @todos = settings.todos
@@ -88,7 +88,7 @@ delete '/todo/:id' do
   redirect '/'
 end
 
-get /\/todo\/([\w\d]+)\/edit/ do |i|
+get /\/todos\/([\w\d]+)\/edit/ do |i|
   @todo_id = i
   @todo_title = settings.todos[i]["@title"].strip
   @todo_content = settings.todos[i]["@content"].strip

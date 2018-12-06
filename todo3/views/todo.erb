@@ -5,8 +5,8 @@
     <!-- 戻る, 編集, 削除 -->
     <div class="form__crud">
         <a href="/" class="button__decorate">return</a>
-        <a href="/todo/<%= @todo_id %>/edit" class="button__decorate">edit</a>
-        <form method="POST" action="/todo/<%= @todo_id %>">
+        <a href="/todos/<%= @todo_id %>/edit" class="button__decorate">edit</a>
+        <form method="POST" action="/todos/<%= @todo_id %>">
             <input type="hidden" value="DELETE" name="_method">
             <input type="hidden" value="<%= @todo_id %>" name="delete">
             <input class="button__decorate" type="submit" value="delete">

@@ -1,14 +1,14 @@
 <!-- 一覧、追加と詳細ができる -->
 <div class="top">
     <div>
-        <a href="/todo/new" class="button--add button__decorate">追加</a>
+        <a href="/todos/new" class="button--add button__decorate">追加</a>
     </div>
     <div class="todo__list">
         <ul class="todo__items">
             <% @todos.each do |k, todo| %>
                 <% tex = todo["@title"].size.zero? ? todo["@content"][0, 20] : todo["@title"]%>
                 <% lastupdate = " -- [" + DateTime.parse(todo["@date"]).strftime("%b %d %H:%M") + "]" %>
-                <li class="todo__item"><a href="/todo/<%= k %>"><%= tex %></a><i class="todo__item__updatetime"><%= lastupdate %></i></li>
+                <li class="todo__item"><a href="/todos/<%= k %>"><%= tex %></a><i class="todo__item__updatetime"><%= lastupdate %></i></li>
             <% end %>
         </ul>
     </div>
