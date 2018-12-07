@@ -10,15 +10,15 @@ FILENAME = "todo.json"
 class Todo
   attr_accessor :title, :content, :date, :priority, :id
   def initialize
-    @date = Time.new.iso8601(6)
-    @id = Digest::MD5.hexdigest(@date.to_s)
+    @date = Time.new.iso8601(6).to_s
+    @id = Digest::MD5.hexdigest(@date)
   end
   def profile_to_hash
     self.instance_variables.map{|var|
       # そのままだと頭に@つきになってしまうので
       # [var.match(/[\w\d]+/).to_s, self.instance_variable_get(var)]
       # と思ったけど@ごと文字列にします
-      [var, self.instance_variable_get(var)]
+      [var.to_s, self.instance_variable_get(var)]
     }.to_h
   end
 end
@@ -65,7 +65,7 @@ patch '/todos/:id' do
   settings.todos[params["id"]]["@title"] = params[:todotitle].strip
   settings.todos[params["id"]]["@content"] = params[:todocontent].strip
   # 時間を編集した時点に更新
-  settings.todos[params["id"]]["date"] = Time.new.iso8601(6)
+  settings.todos[params["id"]]["@date"] = Time.new.iso8601(6).to_s
   updatelist(settings.todos, FILENAME)
   @todos = settings.todos
   # もうちょい検証が必要..?
@@ -99,9 +99,15 @@ end
 helpers do
   # jsonを現在のtodoに合わせてアップデート
   def updatelist(dict, file)
-    open(file, 'w') do |f|
+    # 時間順に並び替える
+    dict = dict.sort_by do |key, val|
+      val["@date"]
+    end.reverse.to_h
+    open(file, 'w+') do |f|
       JSON.dump(dict, f)
+      settings.todos = JSON.load(f)
     end
+    # dict
   end
 
   def gen_list(k, todo)
