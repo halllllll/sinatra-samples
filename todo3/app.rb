@@ -54,6 +54,7 @@ post '/' do
   settings.todos[todo.id] = todo.profile_to_hash
   # ここに保存する処理
   updatelist(settings.todos, FILENAME)
+  # ここで生成する
   @todos = settings.todos
   status 201
   redirect '/'
@@ -102,4 +103,10 @@ helpers do
       JSON.dump(dict, f)
     end
   end
-end 
+
+  def gen_list(k, todo)
+    tex = todo["@title"].size.zero? ? todo["@content"][0, 20] : todo["@title"]
+    lastupdate = " -- [" + DateTime.parse(todo["@date"]).strftime("%b %d %H:%M") + "]"
+    " <li class='todo__item'><a href='/todos/#{k}'>#{tex}</a><i class=&todo__item__updatetime'>#{lastupdate}</i></li>"
+  end
+end

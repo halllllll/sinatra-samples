@@ -6,9 +6,7 @@
     <div class="todo__list">
         <ul class="todo__items">
             <% @todos.each do |k, todo| %>
-                <% tex = todo["@title"].size.zero? ? todo["@content"][0, 20] : todo["@title"]%>
-                <% lastupdate = " -- [" + DateTime.parse(todo["@date"]).strftime("%b %d %H:%M") + "]" %>
-                <li class="todo__item"><a href="/todos/<%= k %>"><%= tex %></a><i class="todo__item__updatetime"><%= lastupdate %></i></li>
+                <%= gen_list(k, todo) %>
             <% end %>
         </ul>
     </div>
