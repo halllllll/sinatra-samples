@@ -73,7 +73,7 @@ patch '/todos/:id' do
   redirect '/'
 end
 
-get /\/todos\/([\w\d]+)/ do |i|
+get '/todos/:id' do |i|
   @todo_id = i
   @todo_title = settings.todos[i]["@title"].strip
   @todo_content = settings.todos[i]["@content"].strip
@@ -89,7 +89,7 @@ delete '/todos/:id' do
   redirect '/'
 end
 
-get /\/todos\/([\w\d]+)\/edit/ do |i|
+get '/todos/:id/edit' do |i|
   @todo_id = i
   @todo_title = settings.todos[i]["@title"].strip
   @todo_content = settings.todos[i]["@content"].strip
