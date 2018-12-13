@@ -110,7 +110,6 @@ helpers do
       JSON.dump(dict, f)
       settings.todos = JSON.load(f)
     end
-    # dict
   end
 
   def gen_list(k, todo)
